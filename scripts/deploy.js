@@ -1,0 +1,3 @@
+const hre = require("hardhat"); const fs = require("fs"); const path = require("path");
+async function main() { const Registre = await hre.ethers.getContractFactory("RegistreAntiquites"); const registre = await Registre.deploy(); await registre.waitForDeployment(); const info = { address: await registre.getAddress(), abi: JSON.parse(Registre.interface.formatJson()), chainId: 31337 }; fs.writeFileSync(path.join(__dirname,"../frontend/src/contract-info.json"), JSON.stringify(info,null,2)); console.log("Registre déployé :", info.address); }
+main().catch(e => { console.error(e); process.exitCode=1; });
